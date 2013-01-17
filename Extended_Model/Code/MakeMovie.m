@@ -1,0 +1,83 @@
+% Copyright 2013 Kathryn Atwell, Adam Berrington, Lucy Hutchinson, Ronja Woloszczuk, Islom Nazarov 
+%    Licensed under the Apache License, Version 2.0 (the "License");
+%    you may not use this file except in compliance with the License.
+%    You may obtain a copy of the License at
+% 
+%        http://www.apache.org/licenses/LICENSE-2.0
+% 
+%    Unless required by applicable law or agreed to in writing, software
+%    distributed under the License is distributed on an "AS IS" BASIS,
+%    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+%    See the License for the specific language governing permissions and
+%    limitations under the License.
+
+function []=MakeMovie(SavedMat,Variable,params,filename)
+%Makes a movie from a matrix of saved states.
+
+%Calculates number of saved states
+NSaves=floor(length(SavedMat)/params.height);
+
+for i=1:1:NSaves
+
+     %Extracts the current state	
+     Matrix=SavedMat((i-1)*params.height+1:(i)*params.height,:);
+     fontSize=14;
+     
+    %If the input is a state matrix, use state matrix visualisation
+    if(strcmpi(Variable,'State')==1)
+        epty = (Matrix == 0);                            
+        normal = logical((Matrix == 1));  
+        nonhypl = logical((Matrix==2)+(Matrix==3)+(Matrix==4)+(Matrix==9)+(Matrix==10)+(Matrix==11)+(Matrix==12));
+        hyplonly = logical((Matrix == 5) + (Matrix == 13));    
+        hyplgly = logical((Matrix == 6)+(Matrix == 14));              
+        hyplar = logical((Matrix == 7)+(Matrix == 15));
+        hyplglyar = logical((Matrix == 8)+(Matrix == 16));  
+
+        toDisplay = 5*ones(params.height, params.width);
+        toDisplay(epty) = 0;
+        toDisplay(normal) = 1;
+        toDisplay(nonhypl) = 2;
+        toDisplay(hyplonly) = 3;
+        toDisplay(hyplgly) = 4;
+        toDisplay(hyplar) = 5;
+        toDisplay(hyplglyar) = 6;
+
+        imagesc(toDisplay,[0 6]);
+        title('State Matrix','FontSize',fontSize);
+        colorbar;
+        set(gca,'FontSize',fontSize)
+
+	%Otherwise use the appropriate segment of other visualisation code
+    elseif((strcmpi(Variable,'ATP')==1))
+        imagesc(Matrix, [0 2]);
+        title('ATP Matrix','FontSize',fontSize);
+        colorbar;
+        set(gca,'FontSize',fontSize)
+    elseif((strcmpi(Variable,'Glucose')==1))
+        imagesc(Matrix);
+        title('Glucose Matrix','FontSize',fontSize);
+        colorbar;
+        caxis([0.95,1]);
+        set(gca,'FontSize',fontSize)
+    elseif((strcmpi(Variable,'Oxygen')==1))
+        imagesc(Matrix);
+        title('Oxygen Matrix','FontSize',fontSize);
+        colorbar;
+        caxis([0.2,1]);
+        set(gca,'FontSize',fontSize)
+    elseif((strcmpi(Variable,'Hydrogen')==1))
+        imagesc(Matrix);
+        title('Hydrogen Matrix','FontSize',fontSize);
+        colorbar;
+        caxis([0,500]);
+        set(gca,'FontSize',fontSize)
+    end
+        
+	%grab frame
+    set(gcf,'Renderer','zbuffer')
+    M(i)=getframe(gcf);
+end
+
+%make movie and save as .avi
+movie(M,1,6);
+movie2avi(M,(filename));
