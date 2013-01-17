@@ -12,15 +12,18 @@
 %    limitations under the License.
 
 function []=MakeMovie(SavedMat,Variable,params,filename)
+%Makes a .avi movie from a matrix of stored simulation states
 
+%Work out number of stored iterations
 NSaves=floor(length(SavedMat)/params.height);
 
 for i=1:1:NSaves
-
+	
+	%Extract state at each iteration	
      Matrix=SavedMat((i-1)*params.height+1:(i)*params.height,:);
      fontSize=14;
      
-    %If the input is a state matrix
+    %If the input is a state matrix, visualise using following snippet of visualisation.m
     if(strcmpi(Variable,'State')==1)
         epty = (Matrix == 0);                            % 1
         normal = logical((Matrix == 1));                 % 2
@@ -39,6 +42,8 @@ for i=1:1:NSaves
         title('State Matrix','FontSize',fontSize);
         colorbar;
         set(gca,'FontSize',fontSize)
+
+	%Otherwise use these other plotting code snippets 
     elseif((strcmpi(Variable,'ATP')==1))
         imagesc(Matrix, [0 2]);
         title('ATP Matrix','FontSize',fontSize);
@@ -63,10 +68,12 @@ for i=1:1:NSaves
         caxis([0,500]);
         set(gca,'FontSize',fontSize)
     end
-        
+    
+	%Grab frame    
     set(gcf,'Renderer','zbuffer')
     M(i)=getframe(gcf);
 end
 
+%Produce movie and save as .avi
 movie(M,1,12);
 movie2avi(M,(filename));

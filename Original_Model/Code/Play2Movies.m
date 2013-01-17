@@ -11,6 +11,7 @@
 %    See the License for the specific language governing permissions and
 %    limitations under the License.
 function []=Play2Movies(filename1,filename2)
+%Function that reads in two .avi movies and plays them back side by side in the same figure
 
 video1=aviread((filename1));
 info1=aviinfo((filename1));
