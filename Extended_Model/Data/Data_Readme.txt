@@ -1,7 +1,7 @@
 ___________________________________________________________________________________________________
 
-NOTE: OUR .MAT FILES ARE TOO BIG TO BE HAPPILY PUSHED TO GIT HUB. INSTEAD THEY CAN BE FOUND ON THE DATA HUB WEBSITE: URL = /dataset/mat-model-tumor-development
-
+NOTE: OUR .MAT FILES ARE TOO BIG TO BE HAPPILY PUSHED TO GIT HUB. INSTEAD THEY WILL BE UPLOADED TO Kathryna 's ACCOUNT ON THE DATA HUB WEBSITE 
+AS SOON AS WE CAN FIND AN INTERNET CONNECTION WITH A DECENT UPLOAD SPEED
 -------------------------------------------------------------------------------------------------------------------------------
 
 Data notation
